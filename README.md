@@ -1,22 +1,23 @@
-[![install with conda](https://anaconda.org/micknudsen/vartriage/badges/version.svg)](https://anaconda.org/micknudsen/vartriage) ![CI](https://github.com/micknudsen/vartriage/workflows/CI/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/micknudsen/vartriage/badge.svg?branch=master)](https://coveralls.io/github/micknudsen/vartriage?branch=master)
-
 # vartriage
 
-Just a little tool to perform second opinions on variant calls. It takes as input a _triage_ VCF file and list of _evidence_ VCF files. Output (written to `stdout`) is an opdated version of the _triage_ VCF, where filtered variants that `PASS` in any of the _evidence_ VCF files are marked as `PASS`.
+[![Conda Version](https://img.shields.io/conda/vn/MOMA-AUH/vartriage?cacheSeconds=300)](https://anaconda.org/MOMA-AUH/vartriage) [![Conda Downloads](https://img.shields.io/conda/dn/MOMA-AUH/vartriage?cacheSeconds=300)](https://anaconda.org/MOMA-AUH/vartriage)
+
+Just a little tool to perform second opinions on variant calls. It takes as input a _triage_ VCF file and list of _evidence_ VCF files. Output (written to `stdout`) is an updated version of the _triage_ VCF, where filtered variants that `PASS` in any of the _evidence_ VCF files are marked as `PASS`.
 
 ```
-$ vartriage --help
-usage: vartriage [-h] --triage_vcf TRIAGE_VCF --evidence_vcfs EVIDENCE_VCFS
+vartriage --help
+usage: vartriage [-h] --triage_vcf_file TRIAGE_VCF_FILE
+                 --evidence_vcf_files EVIDENCE_VCF_FILES
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
-  --triage_vcf TRIAGE_VCF
+  --triage_vcf_file TRIAGE_VCF_FILE
                         VCF file to be triaged
-  --evidence_vcfs EVIDENCE_VCFS
+  --evidence_vcf_files EVIDENCE_VCF_FILES
                         Comma-separated list of ID:VCF_PATH evidence VCF files
 ```
 
-When a variant in un-filtered, two `INFO` fields are added in the output VCF file: `VTOF` contains the original filter reason before triage, and `VTSO` contains a comma-separated list of IDs of _evidence_ VCF files which support the second opinion.
+When a variant is unfiltered, two `INFO` fields are added in the output VCF file: `VTOF` contains the original filter reason before triage, and `VTSO` contains a comma-separated list of IDs of _evidence_ VCF files which support the second opinion.
 
 Note that multi-allelic variants are not supported by `vartriage`. It is thus recommended to first process input VCF files using `bcftools norm -m- foo.vcf.gz`, which splits multi-allelic variants into biallelic variants.
 
@@ -25,7 +26,7 @@ Note that multi-allelic variants are not supported by `vartriage`. It is thus re
 A typical use-case could be to use Strelka as second opinion to Mutect2.
 
 ```
-vartriage --triage_vcf mutect2.vcf.gz --evidence_vcfs STRELKA_SNV:strelka.snvs.vcf.gz,STRELKA_INDEL:strelka.indels.vcf.gz | bgzip -c > triaged.vcf.gz
+vartriage --triage_vcf_file mutect2.vcf.gz --evidence_vcf_files STRELKA_SNV:strelka.snvs.vcf.gz,STRELKA_INDEL:strelka.indels.vcf.gz | bgzip -c > triaged.vcf.gz
 ```
 
 For example, suppose that a variant in `mutect2.vcf.gz` is filtered:
@@ -48,7 +49,8 @@ chr17   39725187        .       C       T       .       PASS    AS_FilterStatus=
 
 # Installation
 
-The recommended way to install `vartriage` is by using conda:
-```
-$ conda install -c micknudsen vartriage
+The recommended way to install **vartriage** is via [conda](https://docs.conda.io/), using the `MOMA-AUH` channel:
+
+```bash
+conda install MOMA-AUH::vartriage
 ```
