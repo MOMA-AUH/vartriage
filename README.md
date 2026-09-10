@@ -1,6 +1,6 @@
 # vartriage
 
-[![Conda Version](https://img.shields.io/conda/vn/MOMA-AUH/vartriage?cacheSeconds=300)](https://anaconda.org/MOMA-AUH/vartriage) [![Conda Downloads](https://img.shields.io/conda/dn/MOMA-AUH/vartriage?cacheSeconds=300)](https://anaconda.org/MOMA-AUH/vartriage)
+[![Conda Version](https://img.shields.io/conda/vn/MOMA-AUH/vartriage?cacheSeconds=300&style=for-the-badge)](https://anaconda.org/MOMA-AUH/vartriage) [![Conda Downloads](https://img.shields.io/conda/dn/MOMA-AUH/vartriage?cacheSeconds=300&style=for-the-badge)](https://anaconda.org/MOMA-AUH/vartriage)
 
 Just a little tool to perform second opinions on variant calls. It takes as input a _triage_ VCF file and list of _evidence_ VCF files. Output (written to `stdout`) is an updated version of the _triage_ VCF, where filtered variants that `PASS` in any of the _evidence_ VCF files are marked as `PASS`.
 
